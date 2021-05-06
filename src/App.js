@@ -6,6 +6,7 @@ import 'firebase/firestore';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 import {useState,useRef} from 'react';
+import guest from './Guest.jpg';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDND-dmmQrfjiEavJEPiuWVAi6MDnz1W1c",
@@ -19,17 +20,44 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
+function clearCollection(path) {
+  const ref = firestore.collection(path)
+  ref.onSnapshot((snapshot) => {
+    snapshot.docs.forEach((doc) => {
+      ref.doc(doc.id).delete()
+    })
+  })
+}
+
 function App() {
   const [user] = useAuthState(auth);
+  const[vanishOn,setVanishOn] = useState(false);
+  
+  const vanish = () => {
+    console.log('before pressing : '+vanishOn);
+    if(vanishOn){
+      clearCollection('vanishMessages');
+      setVanishOn(false);
+    } 
+    else{
+      setVanishOn(true);
+    } 
+    console.log('after pressing : '+vanishOn);
+  } 
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Firechat</h1>
+        {
+          user ? <button className="vanish" onClick={vanish}>
+            {vanishOn ? 'Exit Vanish Mode' : 'Enter Vanish Mode'}</button> : ''
+        }
         <SignOut/>
       </header>
-      <section>
+      <section className={`Section ${vanishOn ? 'darkbody' : ''}`}>
         {
-          user ? <Chatroom/> : <SignIn/>
+          user ? <Chatroom vanish={vanishOn}/> : <SignIn/>
         }
       </section>
     </div>
@@ -38,12 +66,12 @@ function App() {
 
 function SignIn()
 {
-  const signInWithGoogle = () => {
+  const signInWithEmail = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider); 
   }
   return (
-    <button onClick={signInWithGoogle}>Sign In With Google</button>
+    <button onClick={signInWithEmail}>Sign In With Email</button>
   )
 }
 
@@ -53,47 +81,78 @@ function SignOut(){
   )
 }
 
-function Chatroom(){
+function Chatroom(props){
   const dummy = useRef();
+  
   const messageRef = firestore.collection('messages');
   const query = messageRef.orderBy('createdAt').limit(25);
   const [messages] = useCollectionData(query, {idField: 'id'});
+
+  const vanishRef = firestore.collection('vanishMessages');
+  const vanishquery = vanishRef.orderBy('createdAt').limit(25);  
+  const [vanishmessages] = useCollectionData(vanishquery, {idField: 'id'});
+
   const [formValue,setFormValue] = useState('');
+  
   const sendMessage = async(e) => {
     e.preventDefault();
     const { uid, photoURL} = auth.currentUser;
     await messageRef.add({
-      text:formValue,
-      createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      photoURL
-    });
-    setFormValue('');
-    dummy.current.scrollIntoView({behavior:'smooth'});
-  }
+        text:formValue,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+        uid,
+        photoURL
+      });
+    
+      setFormValue('');
+      dummy.current.scrollIntoView({behavior:'smooth'});
+    }
+  
+  const vanishMessage = async(e) => {
+      e.preventDefault();
+      const { uid, photoURL} = auth.currentUser;
+      await vanishRef.add({
+          text:formValue,
+          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+          uid,
+          photoURL
+        });
+      
+        setFormValue('');
+        dummy.current.scrollIntoView({behavior:'smooth'});
+      }
+
   return (
     <>
       <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {
+            props.vanish ? 
+            (vanishmessages && vanishmessages.map(msg => <ChatMessage key={msg.id} message={msg} van={props.vanish}/>)):
+            (messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} van={props.vanish} />))
+        }
         <span ref={dummy}></span>
-        </main>
-        <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
-        <button type="submit" disabled={!formValue}>🕊️</button>
-        </form>
+      </main>
+      <form onSubmit={props.vanish ? vanishMessage : sendMessage}>
+            <input value={formValue} 
+              onChange={(e) => setFormValue(e.target.value)} 
+              placeholder="say something nice" />
+            <button type="submit" disabled={!formValue}>🕊️</button>
+      </form>
     </>
   )
 } 
 
 function ChatMessage(props){
-  const {text, uid, photoURL} =props.message;
+  const {text, uid, photoURL } =props.message;
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'recieved';
-
+  
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="profile-pic"/>
-      <p>{text}</p>
+      <img src={photoURL || guest} alt="Guest"/>
+      <p className={`para ${props.van ? 'dark' : ''}`}>{text}</p>
     </div>
   )
 }
+
+
 export default App;
