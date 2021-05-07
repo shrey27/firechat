@@ -67,6 +67,7 @@ function App() {
 function SignIn()
 {
   const signInWithEmail = () => {
+    clearCollection('vanishMessages');
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider); 
   }

@@ -3,7 +3,9 @@
     max-width: 728px;
     margin: 0 auto;
 }
-
+body{
+  background-color: #d7deeb;
+}
 .App header {
     background-color: #181717;
     height: 10vh;
@@ -95,7 +97,7 @@ main {
 
   button:active {
     box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    transform: translateY(1px);
 }
 
   button:disabled {
