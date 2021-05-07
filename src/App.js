@@ -10,7 +10,7 @@ import guest from './Guest.jpg';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDND-dmmQrfjiEavJEPiuWVAi6MDnz1W1c",
-  authDomain: "https://firechat027.netlify.app/",
+  authDomain: "firechat027.netlify.app",
   projectId: "firechat-cbc9b",
   storageBucket: "firechat-cbc9b.appspot.com",
   messagingSenderId: "502352256377",
