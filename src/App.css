@@ -4,7 +4,7 @@
     margin: 0 auto;
 }
 body{
-  background-color: #d7deeb;
+  background-color: #0c1e41;
 }
 .App header {
     background-color: #181717;
@@ -28,7 +28,7 @@ body{
     flex-direction: column;
     justify-content: center;
     min-height: 100vh;
-    background-color: #d7deeb;
+    background-color: #2a8285;
   }
 
   .darkbody{
@@ -55,7 +55,7 @@ main {
     background: #6649b8;
   }
 
-  form {
+  .inputBar {
     height: 10vh;
     position: fixed;
     bottom: 0;
@@ -138,10 +138,16 @@ main {
   .sent {
     flex-direction: row-reverse;
   }
-  
-  img {
+
+  .profilepic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin: 2px 5px;
   }
+
+  .sharedPic {
+    width: 50px;
+    height: 50px;
+    margin: 2px 5px;
+  } 
