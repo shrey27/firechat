@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase/app';
 import './App.css';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
@@ -55,7 +56,7 @@ function SignIn()
 {
   const signInWithEmail = () => {
     //clearCollection('vanishMessages');
-    const provider = new auth.GoogleAuthProvider();
+    var provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).catch((error) => alert(error.message)); 
   }
   return (
@@ -151,7 +152,7 @@ function ChatMessage(props){
     <div className={`message ${messageClass}`}>
       <img className="profilepic" src={photoURL || guest} alt="Guest"/>
       { text && <p className={`para ${props.van ? 'dark' : ''}`}>{text}</p> }
-      { pic && <img className="sharedpic" src={pic} alt="shared"/> }
+      { pic && <img className="sharedpic" src={pic} alt="shared" style={{ width:'50vh' , height:'50vh'}}/> }
     </div>
   )
 }
