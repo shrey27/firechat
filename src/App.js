@@ -10,7 +10,7 @@ import guest from './Guest.jpg';
 
 firebase.initializeApp({
   apiKey: "AIzaSyDND-dmmQrfjiEavJEPiuWVAi6MDnz1W1c",
-  authDomain: "firechat027.netlify.app",
+  authDomain: "firechat-cbc9b.firebaseapp.com",
   projectId: "firechat-cbc9b",
   storageBucket: "firechat-cbc9b.appspot.com",
   messagingSenderId: "502352256377",
@@ -69,7 +69,7 @@ function SignIn()
   const signInWithEmail = () => {
     clearCollection('vanishMessages');
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider); 
+    auth.signInWithPopup(provider).catch((error) => alert(error.message)); 
   }
   return (
     <button onClick={signInWithEmail}>Sign In With Email</button>
