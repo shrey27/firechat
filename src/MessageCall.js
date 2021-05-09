@@ -3,7 +3,7 @@ import Message from './Message.js';
 
 const MessageCall = ({file, setFile}) => {
 
-    const { url } = Message(file);
+    const {  url } = Message(file);
   
     useEffect(() => {
       if (url) {

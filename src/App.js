@@ -22,7 +22,6 @@ function App() {
   const[vanishOn,setVanishOn] = useState(false);
   
   const vanish = () => {
-    console.log('before pressing : '+vanishOn);
     if(vanishOn){
       clearCollection('vanishMessages');
       setVanishOn(false);
@@ -30,7 +29,6 @@ function App() {
     else{
       setVanishOn(true);
     } 
-    console.log('after pressing : '+vanishOn);
   } 
 
   return (
@@ -38,11 +36,13 @@ function App() {
       <header className="App-header">
         <h1>Firechat</h1>
         {
-          user ? <button className="vanish" onClick={vanish}>
-            {vanishOn ? 'Exit Vanish Mode' : 'Enter Vanish Mode'}</button> : ''
+          user ? 
+          <button className="vanish" onClick={vanish}>
+          {vanishOn ? 'Exit Vanish Mode' : 'Enter Vanish Mode'}</button> : ''
         }
         <SignOut/>
       </header>
+      {user ? <StatusBar/> : ''}
       <section className={`Section ${vanishOn ? 'darkbody' : ''}`}>
         {
           user ? <Chatroom vanish={vanishOn}/> : <SignIn/>
@@ -50,6 +50,22 @@ function App() {
       </section>
     </div>
   );
+}
+
+function StatusBar() {
+
+  const {displayName, photoURL} = auth.currentUser;
+  return(
+    <div className='StatusBar'>
+      <div>
+        <img src = {photoURL} alt="Profile Pic"/>
+        {/* <section> */}
+        <p>{displayName}</p>
+        <h6>Online</h6>
+        {/* </section> */}
+      </div>
+    </div>
+  )
 }
 
 function SignIn()
