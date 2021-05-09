@@ -40,7 +40,6 @@ main {
     height: 80vh;
     margin: 10vh 0 10vh;
     overflow-y: scroll;
-    
   }
 
   main::-webkit-scrollbar {
@@ -54,7 +53,7 @@ main {
   main::-webkit-scrollbar-thumb {
     background: #6649b8;
   }
-
+/* Input bar */
   .inputBar {
     position: fixed;
     bottom: 0;
@@ -62,69 +61,52 @@ main {
     width: 100%;
     max-width: 728px;
     font-size: 1.5rem;
-    height: 7vh;
+    height: 8vh;
+    display: flex;
+    align-content: flex-start;
+    justify-content: space-around;
   }
   
   input {
     line-height: 1.5;
-    width: 70vh;
+    width: 45vh;
     font-size: 1.5rem;
     background: rgb(58, 58, 58);
     color: white;
     outline: none;
     border: none;
     padding: 0 10px;
-    height: 7vh;
+    height: 8vh;
   }
 
   .inputLabel input{
     height: 0;
     width: 0;
     opacity: 0;
-    
+    flex-flow:row-reverse;
   }
-  .inputLabel span{
-    padding: 9px 47px;
+
+  .inputLabel span, button{
     background-color: #152950; /* Green */
     border: none;
+    color: white;
+    padding: 10px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
-    font-size: 1.25rem;
+    font-size: 1rem;
     border: none;
     border-radius: 15px;
     box-shadow: 0 3px #999;
   }
   
-  form button {
-    width: 20vh;
-    background-color: rgb(56, 56, 143);
-    height: 7vh;
-  }
-
-  button {
-    background-color: #152950; /* Green */
-    border: none;
-    color: white;
-    padding: 12px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    cursor: pointer;
-    font-size: 1.25rem;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 3px #999;
-  }
-
-  button:active {
+  .inputLabel span:active,button:active {
     box-shadow: 0 5px #666;
     transform: translateY(1px);
-}
+  }
 
   button:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
   }
   .sign-in {

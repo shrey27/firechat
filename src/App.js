@@ -136,11 +136,11 @@ function Chatroom(props){
           <form onSubmit={props.vanish ? vanishMessage : sendMessage}> 
               <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="let's begin" />
               <label className="inputLabel">
-                  {!props.vanish && <input type="file" onChange={handleChange}/>}
+                  <input type="file" onChange={!props.vanish ? handleChange: ''}/>
                   <span>{props.vanish ? '❌' : '⏏️'}</span>
               </label>
               { file && <MessageCall file={file} setFile={setFile} /> } 
-              <button type="submit" disabled={!formValue}>Go</button>
+              <button type="submit" disabled={!formValue}>✅</button>
           </form>
       </div>
     </>
