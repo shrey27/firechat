@@ -1,5 +1,5 @@
 import {useState,useEffect} from 'react';
-import {auth, firestore, firestorage, timestamp} from './config.js';
+import {auth, firestore, firestorage, timestamp} from '../config.js';
 
 const Message = (file) => {
 

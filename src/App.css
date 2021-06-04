@@ -67,7 +67,6 @@ body{
 main {
     padding: 10px;
     height: 80vh;
-    margin-top: -10vh;
     overflow-y: scroll;
   }
 
