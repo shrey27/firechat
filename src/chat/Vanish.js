@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 import {useState,useRef} from 'react';
 import MessageCall from './MessageCall.js';
